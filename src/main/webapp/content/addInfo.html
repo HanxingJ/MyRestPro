@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增项目信息</title>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/jsrender.min.js"></script>
+</head>
+<body>
+    <form>
+        <div>
+            项目编号：<input type="text"/>
+            项目名称：<input type="text"/>
+            项目管理员：<input type="text"/>
+            <script type="text/x-jsrender">
+            提交星期：
+                <select name="submitWeekId" value="">
+                    <option value="">请选择</option>
+                        {{for data}}
+                            <option value="{{submitWeekId}}">{{:weekName}}</option>
+                        {{/for}}
+
+                </select>
+            周期性质：
+                <select name="thisOrNext" value="">
+                    <option value="">请选择</option>
+                        {{for data}}
+                            <option value="thisOrNext">{{:submitWeekName}}</option>
+                        {{/for}}
+                </select>
+            </script>
+        </div>
+    </form>
+</body>
+</html>

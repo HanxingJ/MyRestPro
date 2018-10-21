@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxlg.mapper.SubmitWeekMapper" >
+  <resultMap id="BaseResultMap" type="com.jxlg.pojo.SubmitWeek" >
+    <constructor >
+      <idArg column="submit_week_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="submit_week_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    submit_week_id, submit_week_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from submit_week_info
+    where submit_week_id = #{submitWeekId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from submit_week_info
+    where submit_week_id = #{submitWeekId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jxlg.pojo.SubmitWeek" >
+    insert into submit_week_info (submit_week_id, submit_week_name)
+    values (#{submitWeekId,jdbcType=VARCHAR}, #{submitWeekName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jxlg.pojo.SubmitWeek" >
+    insert into submit_week_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="submitWeekId != null" >
+        submit_week_id,
+      </if>
+      <if test="submitWeekName != null" >
+        submit_week_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="submitWeekId != null" >
+        #{submitWeekId,jdbcType=VARCHAR},
+      </if>
+      <if test="submitWeekName != null" >
+        #{submitWeekName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jxlg.pojo.SubmitWeek" >
+    update submit_week_info
+    <set >
+      <if test="submitWeekName != null" >
+        submit_week_name = #{submitWeekName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where submit_week_id = #{submitWeekId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jxlg.pojo.SubmitWeek" >
+    update submit_week_info
+    set submit_week_name = #{submitWeekName,jdbcType=VARCHAR}
+    where submit_week_id = #{submitWeekId,jdbcType=VARCHAR}
+  </update>
+</mapper>

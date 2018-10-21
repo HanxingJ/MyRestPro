@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>项目信息列表</title>
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../js/jsrender.min.js"></script>
+    <script src="../js/listInfo.js"></script>
+
+</head>
+<body>
+    <table border="1">
+        <thead>
+            <tr>
+                <th><input type="checkbox"/></th>
+                <th>项目名称</th>
+                <th>项目管理员</th>
+                <th>提交星期</th>
+                <th>周期性质</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody id="listInfo">
+            <script type="text/x-jsrender" id="list">
+                {{for data}}
+                    <tr projectNo="{{:projectNo}}">
+                        <td><input type="checkbox"/></td>
+                        <td>{{:projectName}}</td>
+                        <td>{{:projectManager}}</td>
+                        <td>{{:weekName}}</td>
+                        <td>{{:submitWeekName}}</td>
+                        <td><input type="button" value="修改" onclick="modify('{{:projectNo}}')"/></td>
+                    </tr>
+                 {{/for}}
+            </script>
+        </tbody>
+        <div>
+            <input type="button" value="新增" id="addProjectInfo">
+            <input type="button" value="删除" id="deleteProjectInfo">
+        </div>
+
+
+
+
+    </table>
+
+</body>
+</html>

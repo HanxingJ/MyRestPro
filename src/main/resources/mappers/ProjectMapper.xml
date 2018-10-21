@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jxlg.mapper.ProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.jxlg.pojo.Project" >
+    <constructor >
+      <idArg column="last_week_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="project_no" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="project_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="project_manager" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="submit_week_id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+      <arg column="this_or_next" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </constructor>
+  </resultMap>
+
+  <resultMap id="resultMap" type="com.jxlg.vo.ProjectLastWeekInfo">
+    <id column="last_week_id" property="lastWeekId"/>
+    <result column="project_no" property="projectNo"/>
+    <result column="project_name" property="projectName"/>
+    <result column="project_manager" property="projectManager"/>
+    <result column="this_or_next" property="thisOrNext"/>
+    <result column="submit_week_name" property="submitWeekName"/>
+    <result column="submit_week_id" property="submitWeekId"/>
+    <result column="week_name" property="weekName"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    project_no, project_name, project_manager, last_week_id, submit_week_id, this_or_next
+  </sql>
+
+  <select id="selectAllInfo" resultMap="resultMap">
+    select
+    pi.last_week_id,
+    pi.project_no,
+    pi.project_name,
+    pi.project_manager,
+    pi.this_or_next,
+    swi.submit_week_name,
+    wi.week_name,
+    pi.submit_week_id
+    from project_info pi
+    left JOIN submit_week_info swi
+    ON pi.this_or_next=swi.submit_week_id
+    LEFT JOIN week_info wi
+    ON pi.submit_week_id=wi.week_id
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from project_info
+    where last_week_id = #{last_week_id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from project_info
+    where last_week_id = #{last_week_id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.jxlg.pojo.Project" >
+    insert into
+    project_info
+    (
+        last_week_id,
+        project_no,
+        project_name,
+        project_manager,
+        submit_week_id,
+        this_or_next
+      )
+    values
+    (
+        #{lastWeekId,jdbcType=VARCHAR},
+        #{projectNo,jdbcType=VARCHAR},
+        #{projectName,jdbcType=VARCHAR},
+        #{projectManager,jdbcType=VARCHAR},
+        #{submitWeekId,jdbcType=VARCHAR},
+        #{thisOrNext,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.jxlg.pojo.Project" >
+    insert into project_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="lastWeekId != null" >
+        last_week_id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="projectName != null" >
+        project_name,
+      </if>
+      <if test="projectManager != null" >
+        project_manager,
+      </if>
+      <if test="submitWeekId != null" >
+        submit_week_id,
+      </if>
+      <if test="thisOrNext != null" >
+        this_or_next,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="lastWeekId != null" >
+        #{lastWeekId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null" >
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectManager != null" >
+        #{projectManager,jdbcType=VARCHAR},
+      </if>
+      <if test="submitWeekId != null" >
+        #{submitWeekId,jdbcType=VARCHAR},
+      </if>
+      <if test="thisOrNext != null" >
+        #{thisOrNext,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.jxlg.pojo.Project" >
+    update project_info
+    <set >
+      <if test="projectNo != null" >
+        project_no =  #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null" >
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectManager != null" >
+        project_manager = #{projectManager,jdbcType=VARCHAR},
+      </if>
+      <if test="submitWeekId != null" >
+        submit_week_id = #{submitWeekId,jdbcType=VARCHAR},
+      </if>
+      <if test="thisOrNext != null" >
+        this_or_next = #{thisOrNext,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where last_week_id = #{lastWeekId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.jxlg.pojo.Project" >
+    update project_info
+    set
+      project_no =  #{projectNo,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      project_manager = #{projectManager,jdbcType=VARCHAR},
+      submit_week_id = #{submitWeekId,jdbcType=VARCHAR},
+      this_or_next = #{thisOrNext,jdbcType=VARCHAR},
+    where last_week_id = #{lastWeekId,jdbcType=VARCHAR}
+  </update>
+</mapper>
